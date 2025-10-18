@@ -1,0 +1,24 @@
+# Maven Central Release Workflow for artagon-parent
+# Deploys to Maven Central when a version tag is pushed
+
+name: Release to Maven Central
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'parent-v*'
+
+jobs:
+  release:
+    name: Release to Maven Central
+    uses: artagon/artagon-common/.github/workflows/maven-central-release.yml@main
+    with:
+      java-version: '25'
+      maven-profile: 'artagon-oss-release'
+      create-github-release: true
+    secrets:
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
