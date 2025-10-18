@@ -61,16 +61,30 @@ Update fingerprints by inspecting artifact `.asc` files in your local Maven repo
 
 ### Optional Helper Script
 
-`scripts/update-dependency-security.sh` can regenerate both the checksum CSV and the keys list by downloading artifacts and signatures from Maven Central. It is not invoked by the build; use it manually when refreshing the baselines:
+`scripts/update-dependency-security.sh` is a wrapper around the shared security script from artagon-common. It can regenerate both the checksum CSV and the keys list by downloading artifacts and signatures from Maven Central. It is not invoked by the build; use it manually when refreshing the baselines:
 
 ```bash
+# Update baselines (long form)
 scripts/update-dependency-security.sh --update
+
+# Update baselines (short form)
+scripts/update-dependency-security.sh -u
 ```
 
 Verification without mutation:
 
 ```bash
+# Verify baselines (long form)
 scripts/update-dependency-security.sh --verify
+
+# Verify baselines (short form)
+scripts/update-dependency-security.sh -v
+```
+
+For advanced usage and all available options:
+
+```bash
+scripts/update-dependency-security.sh --help
 ```
 
 ## Release Workflow
