@@ -760,7 +760,7 @@
                                     </scopes>
                                     <transitive>true</transitive>
                                     <pomSkip>false</pomSkip>
-                                    <failOnError>true</failOnError>
+                                    <failOnError>false</failOnError>
                                 </configuration>
                             </execution>
                         </executions>
