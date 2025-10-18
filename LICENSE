@@ -10,7 +10,7 @@ option is intended for open source developers and organizations
 that are willing to share their source code under the same
 license when distributing or deploying the software, including
 over a network. The full text of the license is available in
-`LICENSE-AGPL.txt`.
+[`licenses/LICENSE-AGPL.txt`](licenses/LICENSE-AGPL.txt).
 
 Key obligations under AGPL-3.0 include:
 - Share complete corresponding source code for all covered works.
@@ -26,7 +26,8 @@ For teams that require proprietary use, confidential source code,
 or additional commercial assurances, Artagon LLC offers a paid
 commercial license. This option grants expanded rights for
 production deployments without the reciprocity requirements of
-AGPL-3.0. The full agreement is provided in `LICENSE-COMMERCIAL.txt`.
+AGPL-3.0. The full agreement is provided in
+[`licenses/LICENSE-COMMERCIAL.txt`](licenses/LICENSE-COMMERCIAL.txt).
 Contact sales@artagon.com to obtain pricing and a tailored license
 that meets your needs.
 
@@ -67,8 +68,8 @@ Contributing
 ================================================================
 Contributors must sign the appropriate Contributor License
 Agreement before submitting pull requests:
-- Individual contributors: see `CLA.md`
-- Corporate contributors: see `CLA-CORPORATE.md`
+- Individual contributors: see [`licenses/CLA.md`](licenses/CLA.md)
+- Corporate contributors: see [`licenses/CLA-CORPORATE.md`](licenses/CLA-CORPORATE.md)
 
 By contributing, you agree that your contributions are licensed
 under both AGPL-3.0 and the Artagon LLC commercial license terms
@@ -86,5 +87,8 @@ Pricing: https://www.artagon.com/pricing
 
 Please review both licensing options carefully and consult your
 legal counsel. For guidance on selecting the right license,
-refer to `LICENSING.md`. Always seek professional legal advice
-before relying on these documents.
+refer to [`licenses/LICENSING.md`](licenses/LICENSING.md). For
+additional information about our trademark policy, see
+[`licenses/TRADEMARK-POLICY.md`](licenses/TRADEMARK-POLICY.md).
+Always seek professional legal advice before relying on these
+documents.
