@@ -6,7 +6,7 @@
 
     <groupId>com.artagon</groupId>
     <artifactId>artagon-parent</artifactId>
-    <version>7</version>
+    <version>8</version>
     <packaging>pom</packaging>
 
     <name>Artagon OSS Parent</name>
@@ -758,9 +758,9 @@
                                     <scopes>
                                         <scope>compile</scope>
                                     </scopes>
-                                    <transitive>true</transitive>
+                                    <transitive>false</transitive>
                                     <pomSkip>false</pomSkip>
-                                    <failOnError>false</failOnError>
+                                    <failOnError>true</failOnError>
                                 </configuration>
                             </execution>
                         </executions>
@@ -844,9 +844,9 @@
                                     <scopes>
                                         <scope>compile</scope>
                                     </scopes>
-                                    <transitive>true</transitive>
+                                    <transitive>false</transitive>
                                     <pomSkip>false</pomSkip>
-                                    <failOnError>false</failOnError>
+                                    <failOnError>true</failOnError>
                                 </configuration>
                             </execution>
                         </executions>
