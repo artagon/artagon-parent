@@ -643,7 +643,7 @@
                         <failDuplicateKeyItem>true</failDuplicateKeyItem>
                         <failWeakSignature>true</failWeakSignature>
                         <failNoSignature>false</failNoSignature>
-                        <keysMapLocation>${project.basedir}/security/pgp-trusted-keys.list</keysMapLocation>
+                        <keysMapLocation>${project.basedir}/security/artagon.parent-pgp-trusted-keys.list</keysMapLocation>
                         <pgpKeyServer>https://keys.openpgp.org</pgpKeyServer>
                         <scope>compile</scope>
                         <verifyPomFiles>true</verifyPomFiles>
@@ -759,7 +759,7 @@
                                 </goals>
                                 <configuration>
                                     <failIfNoFiles>false</failIfNoFiles>
-                                    <csvSummaryFile>${project.basedir}/security/dependency-checksums.csv</csvSummaryFile>
+                                    <csvSummaryFile>${project.basedir}/security/artagon.parent-dependency-checksums.csv</csvSummaryFile>
                                     <scopes>
                                         <scope>compile</scope>
                                     </scopes>
@@ -776,6 +776,35 @@
                     <plugin>
                         <groupId>org.simplify4u.plugins</groupId>
                         <artifactId>pgpverify-maven-plugin</artifactId>
+                    </plugin>
+
+                    <!-- Attach Security Artifacts -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-security-artifacts</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.basedir}/security/artagon.parent-dependency-checksums.csv</file>
+                                            <type>csv</type>
+                                            <classifier>dependency-checksums</classifier>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.basedir}/security/artagon.parent-pgp-trusted-keys.list</file>
+                                            <type>list</type>
+                                            <classifier>pgp-trusted-keys</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -846,7 +875,7 @@
                                 </goals>
                                 <configuration>
                                     <failIfNoFiles>false</failIfNoFiles>
-                                    <csvSummaryFile>${project.basedir}/security/dependency-checksums.csv</csvSummaryFile>
+                                    <csvSummaryFile>${project.basedir}/security/artagon.parent-dependency-checksums.csv</csvSummaryFile>
                                     <scopes>
                                         <scope>compile</scope>
                                     </scopes>
