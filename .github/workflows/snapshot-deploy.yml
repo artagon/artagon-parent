@@ -1,0 +1,24 @@
+# Snapshot Deployment Workflow for artagon-parent
+# Automatically deploys snapshots to OSSRH on pushes to main
+
+name: Deploy Snapshot
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy-snapshot:
+    name: Deploy Snapshot to OSSRH
+    if: contains(github.ref, 'refs/heads/main')
+    uses: artagon/artagon-common/.github/workflows/maven-deploy.yml@main
+    with:
+      java-version: '25'
+      deploy-profile: 'ossrh-deploy,artagon-oss-release'
+      skip-tests: true
+    secrets:
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

@@ -1,0 +1,69 @@
+# GitHub Packages Deployment Workflow for artagon-parent
+# Deploys to GitHub Maven Packages
+
+name: Deploy to GitHub Packages
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      deploy-type:
+        description: 'Deployment type (snapshot or release)'
+        required: true
+        type: choice
+        options:
+          - snapshot
+          - release
+        default: 'snapshot'
+
+jobs:
+  deploy-github-packages:
+    name: Deploy to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Configure Maven settings for GitHub Packages
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<EOF
+          <settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>\${env.GITHUB_ACTOR}</username>
+                <password>\${env.GITHUB_TOKEN}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: Deploy to GitHub Packages
+        run: mvn -B deploy -P github-deploy -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Deployment Summary
+        run: |
+          echo "### GitHub Packages Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- **Repository**: artagon/artagon-parent" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Packages URL**: https://github.com/artagon/artagon-parent/packages" >> $GITHUB_STEP_SUMMARY
