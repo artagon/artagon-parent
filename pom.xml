@@ -643,7 +643,7 @@
                         <failDuplicateKeyItem>true</failDuplicateKeyItem>
                         <failWeakSignature>true</failWeakSignature>
                         <failNoSignature>false</failNoSignature>
-                        <keysMapLocation>${project.basedir}/security/artagon.parent-pgp-trusted-keys.list</keysMapLocation>
+                        <keysMapLocation>${project.basedir}/security/com.artagon-artagon-parent-pgp-trusted-keys.list</keysMapLocation>
                         <pgpKeyServer>https://keys.openpgp.org</pgpKeyServer>
                         <scope>compile</scope>
                         <verifyPomFiles>true</verifyPomFiles>
@@ -759,7 +759,7 @@
                                 </goals>
                                 <configuration>
                                     <failIfNoFiles>false</failIfNoFiles>
-                                    <csvSummaryFile>${project.basedir}/security/artagon.parent-dependency-checksums.csv</csvSummaryFile>
+                                    <csvSummaryFile>${project.basedir}/security/com.artagon-artagon-parent-dependency-checksums.csv</csvSummaryFile>
                                     <scopes>
                                         <scope>compile</scope>
                                     </scopes>
@@ -792,12 +792,12 @@
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.basedir}/security/artagon.parent-dependency-checksums.csv</file>
+                                            <file>${project.basedir}/security/com.artagon-artagon-parent-dependency-checksums.csv</file>
                                             <type>csv</type>
                                             <classifier>dependency-checksums</classifier>
                                         </artifact>
                                         <artifact>
-                                            <file>${project.basedir}/security/artagon.parent-pgp-trusted-keys.list</file>
+                                            <file>${project.basedir}/security/com.artagon-artagon-parent-pgp-trusted-keys.list</file>
                                             <type>list</type>
                                             <classifier>pgp-trusted-keys</classifier>
                                         </artifact>
@@ -875,7 +875,7 @@
                                 </goals>
                                 <configuration>
                                     <failIfNoFiles>false</failIfNoFiles>
-                                    <csvSummaryFile>${project.basedir}/security/artagon.parent-dependency-checksums.csv</csvSummaryFile>
+                                    <csvSummaryFile>${project.basedir}/security/com.artagon-artagon-parent-dependency-checksums.csv</csvSummaryFile>
                                     <scopes>
                                         <scope>compile</scope>
                                     </scopes>
