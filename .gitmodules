@@ -1,0 +1,3 @@
+[submodule ".common/artagon-common"]
+	path = .common/artagon-common
+	url = git@github-default:artagon/artagon-common.git

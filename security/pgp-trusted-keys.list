@@ -1,0 +1,15 @@
+# PGP Trusted Keys List
+# Format: groupId:artifactId = key-fingerprint
+#
+# This file contains trusted PGP key fingerprints for verifying artifact signatures.
+#
+# Example:
+# org.artagon:* = 0x1234567890ABCDEF1234567890ABCDEF12345678
+#
+# To add keys:
+# 1. Get the key fingerprint from the developer
+# 2. Verify the key on https://keys.openpgp.org
+# 3. Add entry in format: groupId:artifactId = 0xKEY_FINGERPRINT
+#
+# Artagon artifacts (update with actual key when available)
+# org.artagon:* = 0x${env.GPG_KEYNAME}

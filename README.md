@@ -1,0 +1,117 @@
+# Artagon Parent POM
+
+This parent POM centralises build configuration, dependency management, and security policy for Artagon JVM projects. It also enforces reproducible builds: every compile-scope dependency is checked for hash and PGP signature drift in the security and release profiles.
+
+## Using This Parent POM
+
+Add the parent to your module’s `pom.xml`:
+
+```xml
+<parent>
+  <groupId>org.artagon</groupId>
+  <artifactId>artagon-parent</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+</parent>
+```
+
+Then declare only your module-specific dependencies; the parent provides version management for the testing, logging, and benchmarking stacks documented below.
+
+### Recommended Maven Invocations
+
+- **Developer build (default):** `mvn verify` – uses the active-by-default `artagon-oss-dev` profile.
+- **Secure verification:** `mvn -P artagon-oss-security verify` – runs checksum and PGP verification plus OSS Index.
+- **Full release prep:** `mvn -P artagon-oss-release,artagon-oss-security clean verify` – enforces integrity checks before signing and staging. Remove `-Dgpg.skip=true` to sign artifacts.
+- **Continuous integration:** `mvn -P artagon-oss-ci verify` – enables integration tests and keeps the enforcer strict.
+- **Benchmarks:** `mvn -Dartagon.benchmarks=true verify` – activates the JMH profile to build and run benchmarks.
+
+Combine profiles as needed, e.g. `mvn -P artagon-oss-ci,artagon-oss-security verify`.
+
+## Dependency Integrity
+
+Two Maven plugins enforce dependency integrity using baseline data stored under `security/`.
+
+### Locked Checksums
+
+- Baseline file: `security/dependency-checksums.csv`
+- Plugin: [`net.nicoulaj.maven.plugins:checksum-maven-plugin`](https://github.com/nicolas-grekas/checksum-maven-plugin)
+- Profiles: `artagon-oss-release`, `artagon-oss-security`
+- Behaviour: the plugin’s `check` goal runs in the `verify` phase and compares every compile-scope dependency (transitive included) against the CSV. Any mismatch or missing entry fails the build.
+
+Refresh the baseline after intentional dependency updates:
+
+```bash
+mvn -B checksum:dependencies \
+  -Dchecksum.csvSummary=true \
+  -Dchecksum.csvSummaryFile=security/dependency-checksums.csv \
+  -Dchecksum.algorithms=SHA-256 \
+  -Dchecksum.scopes=compile \
+  -Dchecksum.transitive=true
+```
+
+Commit the updated `security/dependency-checksums.csv` before the next release.
+
+### PGP Signature Verification
+
+- Baseline file: `security/pgp-trusted-keys.list`
+- Plugin: [`org.simplify4u.plugins:pgpverify-maven-plugin`](https://github.com/s4u/pgpverify-maven-plugin)
+- Profiles: `artagon-oss-release`, `artagon-oss-security`
+- Behaviour: validates each compile-scope dependency’s signature against the trusted fingerprints. `noKey` entries denote dependencies whose signing key is intentionally unavailable on public key servers.
+
+Update fingerprints by inspecting artifact `.asc` files in your local Maven repository with `gpg --list-packets` and editing the list accordingly.
+
+### Optional Helper Script
+
+`scripts/update-dependency-security.sh` can regenerate both the checksum CSV and the keys list by downloading artifacts and signatures from Maven Central. It is not invoked by the build; use it manually when refreshing the baselines:
+
+```bash
+scripts/update-dependency-security.sh --update
+```
+
+Verification without mutation:
+
+```bash
+scripts/update-dependency-security.sh --verify
+```
+
+## Release Workflow
+
+Run releases with the security profile enabled so integrity checks run before signing or staging:
+
+```bash
+mvn -P artagon-oss-release,artagon-oss-security clean verify
+```
+
+A release build fails automatically if:
+
+- any dependency hash differs from `security/dependency-checksums.csv`, or
+- any dependency signature is missing, signed with an untrusted key, or the key cannot be located (unless marked `noKey`).
+
+## Maven Profiles
+
+| Profile | Activation | Purpose | Typical command |
+|---------|------------|---------|------------------|
+| `artagon-oss-dev` | Active by default | Developer defaults: unit tests on, integration tests skipped. | `mvn verify` |
+| `artagon-oss-release` | Manual | Pre-release packaging: attaches sources/javadocs, signs artifacts, stages to Nexus, enforces checksum & PGP locks. | `mvn -P artagon-oss-release,artagon-oss-security clean verify` |
+| `artagon-oss-security` | Manual | Security auditing: runs OSS Index audit plus checksum/PGP verification. Combine with other profiles as needed. | `mvn -P artagon-oss-security verify` |
+| `artagon-oss-ci` | Manual | Continuous integration defaults: enables integration tests (`skipITs=false`) and enforcer checks. | `mvn -P artagon-oss-ci verify` |
+| `artagon-oss-benchmark` | `-Dartagon.benchmarks=true` | Adds JMH dependencies/plugins and build steps. Useful for local benchmarking. | `mvn -Dartagon.benchmarks=true verify` |
+
+## Baseline Files
+
+- `security/dependency-checksums.csv`: authoritative SHA-256 hashes generated by the checksum plugin (compile scope, transitive). Update only when dependencies change intentionally.
+- `security/pgp-trusted-keys.list`: mapping of Maven coordinates to trusted PGP fingerprints. Include `noKey` for dependencies whose public key is intentionally unavailable.
+
+Keep these files under version control; do not regenerate them during normal builds.
+
+## Licensing
+
+This project uses a dual licensing model:
+
+- **GNU Affero General Public License v3.0 (AGPL-3.0)** for open source
+  use. See `LICENSE-AGPL.txt` for the full text.
+- **Commercial License** for proprietary use, available from Artagon LLC
+  with expanded rights, warranties, and support. Review `LICENSE-
+  COMMERCIAL.txt` or contact `sales@artagon.com`.
+
+Need help choosing? Read `LICENSING.md` for a decision guide. Commercial
+pricing is available at https://www.artagon.com/pricing.
