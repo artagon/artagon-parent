@@ -6,7 +6,7 @@
 
     <groupId>com.artagon</groupId>
     <artifactId>artagon-parent</artifactId>
-    <version>9</version>
+    <version>10</version>
     <packaging>pom</packaging>
 
     <name>Artagon OSS Parent</name>
@@ -746,6 +746,11 @@
                         <groupId>net.nicoulaj.maven.plugins</groupId>
                         <artifactId>checksum-maven-plugin</artifactId>
                         <executions>
+                            <!-- Skip checksum-artifacts execution from pluginManagement -->
+                            <execution>
+                                <id>checksum-artifacts</id>
+                                <phase>none</phase>
+                            </execution>
                             <execution>
                                 <id>verify-dependency-checksums</id>
                                 <phase>verify</phase>
