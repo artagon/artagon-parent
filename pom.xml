@@ -741,6 +741,30 @@
                         <artifactId>central-publishing-maven-plugin</artifactId>
                     </plugin>
 
+                    <!-- Verify Security File Checksums -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>verify-security-file-checksums</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${project.basedir}/.common/artagon-common/scripts/security/verify-checksums.sh</executable>
+                                    <arguments>
+                                        <argument>--security-dir</argument>
+                                        <argument>${project.basedir}/security</argument>
+                                        <argument>com.artagon-artagon-parent-dependency-checksums.csv</argument>
+                                        <argument>com.artagon-artagon-parent-pgp-trusted-keys.list</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <!-- Verify Dependency Checksums -->
                     <plugin>
                         <groupId>net.nicoulaj.maven.plugins</groupId>
@@ -843,6 +867,30 @@
                                 <goals>
                                     <goal>audit</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Verify Security File Checksums -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>verify-security-file-checksums</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${project.basedir}/.common/artagon-common/scripts/security/verify-checksums.sh</executable>
+                                    <arguments>
+                                        <argument>--security-dir</argument>
+                                        <argument>${project.basedir}/security</argument>
+                                        <argument>com.artagon-artagon-parent-dependency-checksums.csv</argument>
+                                        <argument>com.artagon-artagon-parent-pgp-trusted-keys.list</argument>
+                                    </arguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
