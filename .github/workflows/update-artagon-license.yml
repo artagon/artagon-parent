@@ -1,0 +1,16 @@
+name: Sync Artagon Licensing Assets
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    uses: artagon/artagon-license/.github/workflows/update-artagon-license.yml@main
+    with:
+      submodule-path: .legal/artagon-license
+      ref: main
+      target-path: .
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}

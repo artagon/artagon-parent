@@ -1,0 +1,20 @@
+# Automated workflow to update artagon-common submodule
+#
+# This workflow runs weekly and creates a pull request when updates are available
+
+name: Update Common Scripts
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Weekly on Monday at 6 AM UTC
+  workflow_dispatch:      # Allow manual triggers
+
+jobs:
+  update-submodule:
+    uses: artagon/artagon-common/.github/workflows/update-submodule.yml@main
+    with:
+      submodule-path: .common/artagon-common
+      branch: main
+      create-pr: true
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
