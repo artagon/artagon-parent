@@ -112,6 +112,25 @@ These files use Maven coordinate-based naming (`com.artagon-artagon-parent` deri
 
 Both files are automatically attached and deployed to Maven Central during releases, allowing consumers to verify the integrity of published artifacts.
 
+## Documentation
+
+### Common Documentation
+
+General-purpose documentation is maintained in artagon-common:
+
+- **[Security Scripts Guide](.common/artagon-common/docs/SECURITY-SCRIPTS.md)** - Using security verification scripts
+- **[Release Guide](.common/artagon-common/docs/RELEASE-GUIDE.md)** - How to create releases
+- **[Deployment Guide](.common/artagon-common/docs/DEPLOYMENT.md)** - Deploying to Maven Central
+- **[GitHub Packages Guide](.common/artagon-common/docs/GITHUB-PACKAGES.md)** - Using GitHub Packages
+- **[Licensing Implementation](.common/artagon-common/docs/licensing/IMPLEMENTATION-GUIDE.md)** - Dual licensing setup
+- **[Complete Documentation Index](.common/artagon-common/docs/README.md)** - All available documentation
+
+### Project-Specific Guides
+
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history and changes
+- **[RELEASE-GUIDE.md](RELEASE-GUIDE.md)** - artagon-parent specific release notes
+- **[security/README.md](security/README.md)** - Security baseline file documentation
+
 ## Licensing
 
 This project uses a dual licensing model:
