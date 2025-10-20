@@ -1,5 +1,5 @@
 # Snapshot Deployment Workflow for artagon-parent
-# Automatically deploys snapshots to OSSRH on pushes to main
+# Automatically deploys snapshots to OSSRH on pushes to main (SNAPSHOT versions only)
 
 name: Deploy Snapshot
 
@@ -9,9 +9,30 @@ on:
   workflow_dispatch:
 
 jobs:
+  check-version:
+    name: Check if version is SNAPSHOT
+    runs-on: ubuntu-latest
+    outputs:
+      is-snapshot: ${{ steps.version-check.outputs.is-snapshot }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check version
+        id: version-check
+        run: |
+          VERSION=$(grep -m 1 '<version>' pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/')
+          echo "Project version: $VERSION"
+          if [[ "$VERSION" == *-SNAPSHOT ]]; then
+            echo "is-snapshot=true" >> $GITHUB_OUTPUT
+            echo "✓ Version is SNAPSHOT, will deploy"
+          else
+            echo "is-snapshot=false" >> $GITHUB_OUTPUT
+            echo "✗ Version is not SNAPSHOT ($VERSION), skipping deployment"
+          fi
+
   deploy-snapshot:
     name: Deploy Snapshot to OSSRH
-    if: contains(github.ref, 'refs/heads/main')
+    needs: check-version
+    if: needs.check-version.outputs.is-snapshot == 'true'
     uses: artagon/artagon-workflows/.github/workflows/maven_deploy.yml@main
     with:
       java-version: '25'
