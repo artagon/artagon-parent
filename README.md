@@ -32,7 +32,7 @@ nix develop -c mvn verify
 ```
 
 **Features:**
-- ✅ Java 17 (default) and Java 21 environments
+- ✅ Java 25 (default), Java 17 (LTS), and Java 21 (LTS) environments
 - ✅ Maven, GPG, OpenSSL automatically configured
 - ✅ Cross-platform (Linux, macOS)
 - ✅ No Docker needed

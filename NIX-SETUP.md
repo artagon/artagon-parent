@@ -27,14 +27,21 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 
 ### Using the Development Shell
 
-**Enter the default development environment (JDK 17):**
+**Enter the default development environment (JDK 25):**
 ```bash
 nix develop
 ```
 
-**Use JDK 21 for testing:**
+**Use specific JDK versions:**
 ```bash
+# JDK 17 (LTS)
+nix develop .#jdk17
+
+# JDK 21 (LTS)
 nix develop .#jdk21
+
+# JDK 25 (explicit)
+nix develop .#jdk25
 ```
 
 **Run commands without entering the shell:**
@@ -53,7 +60,7 @@ nix develop -c ./scripts/update-dependency-security.sh -u
 
 The `nix/flake.nix` defines multiple development shells:
 
-### Default Shell (JDK 17)
+### Default Shell (JDK 25)
 ```bash
 nix develop
 # or explicitly:
@@ -61,19 +68,26 @@ nix develop .#default
 ```
 
 **Includes:**
-- Java 17 (JDK)
+- Java 25 (JDK)
 - Maven
 - GPG (for PGP signature verification)
 - OpenSSL (for SHA checksums)
 - Git, curl, jq, yq-go
 - Pandoc (documentation)
 
-### JDK 21 Shell
+### JDK 17 Shell (LTS)
+```bash
+nix develop .#jdk17
+```
+
+Use the Long-Term Support version of Java.
+
+### JDK 21 Shell (LTS)
 ```bash
 nix develop .#jdk21
 ```
 
-Test compatibility with newer Java versions.
+Use the latest LTS version of Java.
 
 ### CI Shell
 ```bash
@@ -85,7 +99,7 @@ Minimal environment for continuous integration with only essential tools.
 ## What's Included
 
 ### Java & Build Tools
-- **JDK 17** (default) or JDK 21
+- **JDK 25** (default), JDK 17 (LTS), or JDK 21 (LTS)
 - **Maven 3.x** - Build automation
 - **Maven wrapper** helper script
 
@@ -187,32 +201,44 @@ Now the Nix environment activates automatically when you enter the directory!
 
 ```
 artagon-parent/
-├── nix/
-│   ├── flake.nix         # Nix flake definition (modern)
-│   ├── shell.nix         # Legacy shell.nix (compatibility)
-│   └── README.md         # Detailed Nix patterns and examples
-├── .envrc                # Optional: direnv configuration
-└── flake.lock            # Lock file (committed to version control)
+├── .common/artagon-common/         # Git submodule
+│   └── nix/templates/java/         # Shared Nix templates
+│       ├── flake.nix              # Nix flake definition
+│       ├── shell.nix              # Legacy compatibility
+│       └── README.md              # Patterns guide
+├── nix -> .common/artagon-common/nix/templates/java  # Symlink to template
+├── .envrc                          # Optional: direnv configuration
+└── flake.lock                      # Lock file (if customized)
 ```
 
-### `nix/flake.nix`
+### Shared Template Architecture
 
-Modern Nix flake defining:
+The `nix/` folder is a **symlink** to shared Nix templates in artagon-common:
+
+**Benefits:**
+- ✅ Consistent environments across all Artagon projects
+- ✅ Automatic updates when artagon-common is updated
+- ✅ No duplication of configuration
+- ✅ Single source of truth for Nix environments
+
+**Template Location:** `.common/artagon-common/nix/templates/java/`
+
+### Template Files
+
+**`flake.nix`** - Modern Nix flake defining:
 - Multiple development shells (default, jdk17, jdk21, ci)
 - Build checks (maven-compile, scripts-executable)
 - Code formatter
 
-### `nix/shell.nix`
+**`shell.nix`** - Legacy format for older Nix versions
 
-Legacy format for older Nix versions. Provides same environment as flake.
-
-### `nix/README.md`
-
-Comprehensive guide with:
+**`README.md`** - Comprehensive guide with:
 - Detailed Nix patterns for Maven/Java projects
 - Advanced configuration examples
 - CI/CD integration
 - Troubleshooting
+
+**Template Documentation:** See `.common/artagon-common/nix/templates/README.md`
 
 ## Advanced Usage
 
@@ -408,8 +434,10 @@ nix develop
 
 | Command | Description |
 |---------|-------------|
-| `nix develop` | Enter default dev shell (JDK 17) |
-| `nix develop .#jdk21` | Use JDK 21 shell |
+| `nix develop` | Enter default dev shell (JDK 25) |
+| `nix develop .#jdk17` | Use JDK 17 (LTS) shell |
+| `nix develop .#jdk21` | Use JDK 21 (LTS) shell |
+| `nix develop .#jdk25` | Use JDK 25 shell (explicit) |
 | `nix develop .#ci` | Minimal CI environment |
 | `nix develop -c CMD` | Run command in shell |
 | `nix flake check` | Run all checks |

@@ -1,0 +1,1 @@
+.common/artagon-common/nix/templates/java
