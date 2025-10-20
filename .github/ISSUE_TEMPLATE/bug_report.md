@@ -1,0 +1,1 @@
+../../.common/artagon-common/templates/.github/ISSUE_TEMPLATE/bug_report.md

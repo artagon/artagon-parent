@@ -1,0 +1,1 @@
+../.common/artagon-common/templates/.github/PULL_REQUEST_TEMPLATE.md
