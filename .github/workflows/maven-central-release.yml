@@ -12,7 +12,7 @@ on:
 jobs:
   release:
     name: Release to Maven Central
-    uses: artagon/artagon-common/.github/workflows/maven-central-release.yml@main
+    uses: artagon/artagon-workflows/.github/workflows/maven-central-release.yml@main
     with:
       java-version: '25'
       maven-profile: 'artagon-oss-release'

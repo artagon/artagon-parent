@@ -11,7 +11,7 @@ on:
 
 jobs:
   update-submodule:
-    uses: artagon/artagon-common/.github/workflows/update-submodule.yml@main
+    uses: artagon/artagon-workflows/.github/workflows/update-submodule.yml@main
     with:
       submodule-path: .common/artagon-common
       branch: main
