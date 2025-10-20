@@ -11,6 +11,52 @@
 - Define build profiles for different scenarios (dev, CI, security, release)
 - Ensure reproducible builds
 
+## Development Environment
+
+### Nix (Recommended)
+
+The project provides a **reproducible development environment** using Nix:
+
+**Location:** `nix/`
+- `nix/flake.nix` - Modern Nix flake configuration
+- `nix/shell.nix` - Legacy compatibility
+- `nix/README.md` - Detailed Nix patterns and examples
+
+**Quick Start:**
+```bash
+# Enter development shell (JDK 17, Maven, security tools)
+nix develop
+
+# Use JDK 21
+nix develop .#jdk21
+
+# Run Maven in Nix environment
+nix develop -c mvn verify
+```
+
+**Available Shells:**
+- `default` - JDK 17 + Maven + security tools
+- `jdk17` - Explicit JDK 17 environment
+- `jdk21` - JDK 21 for testing newer Java
+- `ci` - Minimal CI environment
+
+**What's Included:**
+- Java Development Kit (17 or 21)
+- Maven 3.x
+- GPG (PGP signature verification)
+- OpenSSL (SHA checksum generation)
+- Git, curl, jq, yq-go, pandoc
+
+**Documentation:** See `NIX-SETUP.md` for complete guide
+
+### Traditional Setup
+
+Manual installation of:
+- Java 17+ (JDK)
+- Maven 3.6+
+- GPG (for PGP verification)
+- OpenSSL (for checksums)
+
 ## Project Structure
 
 ```
@@ -20,6 +66,10 @@ artagon-parent/
 │   └── codex/                  # GitHub Copilot context
 ├── .common/                    # Git submodule
 │   └── artagon-common/        # Shared scripts and docs
+├── nix/                        # Nix development environment
+│   ├── flake.nix              # Nix flake (modern)
+│   ├── shell.nix              # Legacy shell.nix
+│   └── README.md              # Nix patterns guide
 ├── pom.xml                     # Parent POM definition
 ├── security/                   # Security baseline files
 │   ├── com.artagon-artagon-parent-dependency-checksums.csv

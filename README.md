@@ -16,6 +16,37 @@ Add the parent to your module’s `pom.xml`:
 
 Then declare only your module-specific dependencies; the parent provides version management for the testing, logging, and benchmarking stacks documented below.
 
+## Development Environment
+
+### Nix (Recommended)
+
+This project provides a reproducible development environment using [Nix](https://nixos.org/). Nix ensures all developers have identical versions of Java, Maven, and security tools regardless of their operating system.
+
+**Quick start:**
+```bash
+# Enter development environment
+nix develop
+
+# Or run commands directly
+nix develop -c mvn verify
+```
+
+**Features:**
+- ✅ Java 17 (default) and Java 21 environments
+- ✅ Maven, GPG, OpenSSL automatically configured
+- ✅ Cross-platform (Linux, macOS)
+- ✅ No Docker needed
+
+See **[NIX-SETUP.md](NIX-SETUP.md)** for complete setup guide and advanced usage.
+
+### Traditional Setup
+
+Alternatively, install manually:
+- Java 17+ (JDK)
+- Maven 3.6+
+- GPG (for PGP signature verification)
+- OpenSSL (for checksum generation)
+
 ### Recommended Maven Invocations
 
 - **Developer build (default):** `mvn verify` – uses the active-by-default `artagon-oss-dev` profile.
